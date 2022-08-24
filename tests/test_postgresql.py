@@ -1,5 +1,5 @@
 import unittest
-from src.swen344_db_utils import connect
+from src.swen344_db_utils import connect, exec_get_one
 
 class TestPostgreSQL(unittest.TestCase):
 
