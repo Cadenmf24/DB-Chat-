@@ -1,5 +1,9 @@
 from src.swen344_db_utils import connect
 
+def buildTables():
+    conn = connect()
+    conn.close()
+    
 def rebuildTables():
     conn = connect()
     cur = conn.cursor()
