@@ -2,6 +2,14 @@ from src.swen344_db_utils import connect
 
 def buildTables():
     conn = connect()
+    cur = conn.cursor()
+    sql = """
+      CREATE TABLE example_table(
+          example_col VARCHAR(40)
+      )
+  """
+    cur.execute(sql)
+    conn.commit() # don't forget this!
     conn.close()
     
 def rebuildTables():
