@@ -11,7 +11,7 @@ class TestChat(unittest.TestCase):
     def test_0run_file(self):
         """ **Running exec_sql_file test...** """
         
-        exec_sql_file('db-cmf5531\\src\\chat.sql')
+        exec_sql_file('db-cmf5531/src/chat.sql')
         
     def test_dataseed(self):
         """ **Running dataseed test** """
