@@ -8,7 +8,7 @@ from src.chat1 import *
 
 class TestChat(unittest.TestCase):
     
-    def test_run_file(self):
+    def test_0run_file(self):
         """ **Running exec_sql_file test...** """
         
         exec_sql_file('db-cmf5531\\src\\chat.sql')
