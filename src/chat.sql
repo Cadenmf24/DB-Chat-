@@ -28,13 +28,13 @@ INSERT INTO ban_logs(id, user_id, ban_start, ban_end) VALUES
     (2, 5, '1990-01-01', '2000-01-01');
 
 INSERT INTO chat_logs(id, sender, receiver, time_log, body, message_read) VALUES
-    (1,1,2,'1922-01-01', 'Ayo', FALSE),
-    (2,2,1,'1922-01-12', 'Dab me up', TRUE),
+    (1,1,2,'1922-01-01', 'Ayo', TRUE),
+    (2,2,1,'1922-01-12', 'Dab me up', FALSE),
     (3,3,4,'1995-08-12', 'Ao bro, dont do what your thinking of doing', FALSE),
     (4,4,3,'1995-08-12', 'Yo buddy, that was a huge mistake man', TRUE),
     (5,4,3,'1996-08-12', 'America or something', TRUE),
     (6,3,4,'1994-08-12', 'Canada or something', TRUE),
-    (7,5,1, '2000-08-24', 'Guys dont worry im still here', FALSE);
+    (7,5,1, '2000-08-24', 'Guys dont worry im still here', TRUE);
 
 
 
