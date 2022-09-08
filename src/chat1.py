@@ -1,4 +1,5 @@
 from cgitb import reset
+from datetime import date
 from unittest import result
 from src.swen344_db_utils import exec_sql_file
 from src.swen344_db_utils import *
@@ -23,53 +24,51 @@ def rebuildTables():
     conn.close()
     
 def run_dataseed(database):
-    result = exec_get_all(f'SELECT COUNT(*) FROM %s ' % (database)) 
+    result = exec_get_all(f'SELECT COUNT(*) FROM %s', [database])
     
     return result
 
 def run_single_chat(user):
-    result = exec_get_all(f'SELECT body FROM chat_logs INNER JOIN user_info ON chat_logs.sender = user_info.id WHERE user_info."name" = \'%s\'' % (user))
+    result = exec_get_all(f'SELECT body FROM chat_logs INNER JOIN user_info ON chat_logs.sender = user_info.id WHERE user_info."name" = %s' , (user,))
 
     return result
 
 def run_chat_conversation(sender, receiver, year_start = 0):
     if year_start != 0:
-        year_end = year_start + 1
-        year_start = year_start
-        result = exec_get_all(f'SELECT sender, receiver, time_log FROM chat_logs INNER JOIN user_info ON chat_logs.sender = user_info.id WHERE (user_info."name" = \'%s\' OR user_info."name" = \'%s\') AND chat_logs.time_log > \'%d-01-01\' AND chat_logs.time_log < \'%d-01-01\'' % (sender, receiver, year_start, year_end))
+        year_end = date(year_start + 1,1,1)
+        year_start = date(year_start,1,1)
+        result = exec_get_all(f'SELECT sender, receiver, time_log FROM chat_logs INNER JOIN user_info ON chat_logs.sender = user_info.id WHERE (user_info."name" = %s OR user_info."name" = %s) AND chat_logs.time_log > %s AND chat_logs.time_log < %s' , (sender, receiver, year_start, year_end,))
     else:
-        result = exec_get_all(f'SELECT sender, receiver FROM chat_logs INNER JOIN user_info ON chat_logs.sender = user_info.id WHERE user_info."name" = \'%s\' OR user_info."name" = \'%s\'' % (sender, receiver))
+        result = exec_get_all(f'SELECT sender, receiver FROM chat_logs INNER JOIN user_info ON chat_logs.sender = user_info.id WHERE user_info."name" = %s OR user_info."name" = %s' , (sender, receiver,))
     
     return result
 
 def run_unread_conversation(user):
-    result = exec_get_all(f'SELECT sender, receiver, message_read FROM chat_logs INNER JOIN user_info ON chat_logs.receiver = user_info.id WHERE user_info."name" = \'%s\' AND chat_logs.message_read = FALSE' % (user))
+    result = exec_get_all(f'SELECT sender, receiver, message_read FROM chat_logs INNER JOIN user_info ON chat_logs.receiver = user_info.id WHERE user_info."name" = %s AND chat_logs.message_read = FALSE' , (user,))
     
     return result
 
 def run_read_conversation(user):
-    result = exec_get_all(f'SELECT sender, receiver, message_read FROM chat_logs INNER JOIN user_info ON chat_logs.receiver = user_info.id WHERE user_info."name" = \'%s\' AND chat_logs.message_read = TRUE' % (user))
+    result = exec_get_all(f'SELECT sender, receiver, message_read FROM chat_logs INNER JOIN user_info ON chat_logs.receiver = user_info.id WHERE user_info."name" = %s AND chat_logs.message_read = TRUE' , (user,))
 
     return result
 
 
 def run_banned_time(user, year):
-    result = exec_get_all(f'SELECT user_id from ban_logs INNER JOIN user_info ON ban_logs.user_id = user_info.id WHERE user_info."name" = \'%s\'AND ban_logs.ban_end > \'%d-01-01\'' % (user, year))
+    year = date(year,1,1)
+    result = exec_get_all(f'SELECT user_id from ban_logs INNER JOIN user_info ON ban_logs.user_id = user_info.id WHERE user_info."name" = %s AND ban_logs.ban_end > %s' , (user, year,))
     
     return result
 
 def run_user_exists(user):
-    result = exec_get_all (f'SELECT name from user_info where user_info."name" = \'%s\' ' % (user))
+    result = exec_get_all (f'SELECT name from user_info where user_info."name" = %s ' , (user,))
     
     return result
     
 def main():
     
-    
+
     exec_sql_file("chat.sql")
-    
-    
-    
     
 if __name__ == "__main__":
     main()

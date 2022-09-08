@@ -9,6 +9,9 @@ from src.chat1 import *
 
 class TestChat(unittest.TestCase):
     
+    # def setUp(self):
+    #     run_dataseed
+    
     def test_0run_file(self):
         """ **Running exec_sql_file test...** """
         
@@ -16,10 +19,10 @@ class TestChat(unittest.TestCase):
         
     def test_dataseed(self):
         """ **Running dataseed test** """
-        
-        self.assertEqual(len(run_dataseed('user_info')), 1)
-        self.assertEqual(len(run_dataseed('ban_logs')), 1)
-        self.assertEqual(len(run_dataseed('chat_logs')), 1)
+        # result = exec_get_all(f'SELECT COUNT(*) FROM %s', [database])
+        self.assertEqual(len(exec_get_all('SELECT COUNT(*) FROM user_info')), 1)
+        self.assertEqual(len(exec_get_all('SELECT COUNT(*) FROM ban_logs')), 1)
+        self.assertEqual(len(exec_get_all('SELECT COUNT(*) FROM chat_logs')), 1)
         
         
     def test_Abbott_Costello_convo(self):
