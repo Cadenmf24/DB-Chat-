@@ -44,15 +44,14 @@ def run_chat_conversation(sender, receiver, year_start = 0):
     return result
 
 def run_unread_conversation(user):
-    result = exec_get_all(f'SELECT sender, receiver, message_read FROM chat_logs INNER JOIN user_info ON chat_logs.receiver = user_info.id WHERE user_info."name" = %s AND chat_logs.message_read = FALSE' , (user,))
+    result = exec_get_all(f'SELECT sender, receiver, message_read, message_id FROM chat_logs INNER JOIN user_info ON chat_logs.receiver = user_info.id WHERE user_info."name" = %s AND chat_logs.message_read = FALSE' , (user,))
     
     return result
 
 def run_read_conversation(user):
-    result = exec_get_all(f'SELECT sender, receiver, message_read FROM chat_logs INNER JOIN user_info ON chat_logs.receiver = user_info.id WHERE user_info."name" = %s AND chat_logs.message_read = TRUE' , (user,))
+    result = exec_get_all(f'SELECT sender, receiver, message_read, message_id FROM chat_logs INNER JOIN user_info ON chat_logs.receiver = user_info.id WHERE user_info."name" = %s AND chat_logs.message_read = TRUE' , (user,))
 
     return result
-
 
 def run_banned_time(user, year):
     year = date(year,1,1)
@@ -65,7 +64,6 @@ def run_user_exists(user):
     
     return result
 
-
 def create_new_user(username, date_created):
     result = exec_commit('INSERT INTO user_info(name, date_created) VALUES (%s , %s)', (username, date_created))
     
@@ -77,9 +75,24 @@ def read_message(message_id):
     return result
 
 def create_message(sender, receiver, body, time_log):
-    result = exec_commit('INSERT INTO chat_logs (sender, receiver, body, time_log) VALUES (%s, %s, %s, %s', (sender, receiver, body, time_log))
+    exec_commit('INSERT INTO chat_logs (sender, receiver, body, time_log) VALUES (%s, %s, %s, %s)', (sender, receiver, body, time_log))
+    result = exec_get_all('SELECT message_id FROM chat_logs WHERE chat_logs.sender = %s AND chat_logs.receiver = %s AND chat_logs.body = %s AND chat_logs.time_log = %s', (sender,receiver,body,time_log))
     
     return result
+
+def get_message(id):
+    result = exec_get_all('Select sender, receiver, body, message_read FROM chat_logs WHERE chat_logs.message_id = %s', (id))
+    
+    return result
+    
+def change_username(old_name, new_name, time):
+    exec_commit('UPDATE user_info SET name = %s, date_created = %s WHERE name = %s', (new_name, time, old_name))
+    result = exec_get_all('SELECT name, date_created FROM user_info WHERE user_info.name = %s', new_name)
+    
+    return result
+
+    
+    
     
 def main():
     

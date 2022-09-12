@@ -111,13 +111,29 @@ class TestChat(unittest.TestCase):
         
     #More Tests kek
     
-    # create_new_user('Bob', '1991-05-17')
-    
-    
     def test_user_exists(self):
         create_new_user('Bob', '1991-05-17')
         
         self.assertEqual(len(run_user_exists('Bob')), 1)
+        
+    def test_message_created(self):
+        x = create_message(7, 6, 'Im doing work, Im baby-stepping', '1991-05-18') #Create message returns message id
+        
+        self.assertEquals(len(x),1)
+        
+        
+    def test_change_username(self):
+        
+        x = change_username('Bob', 'BabySteps2Door', '1991-05-19')
+        
+        print(x)
+        
+        
+        
+        
+        
+        
+        
         
     
 if __name__ == '__main__':
