@@ -109,7 +109,18 @@ class TestChat(unittest.TestCase):
         
         
         
+    #More Tests kek
+    
+    # create_new_user('Bob', '1991-05-17')
+    
+    
+    def test_user_exists(self):
+        create_new_user('Bob', '1991-05-17')
+        
+        self.assertEqual(len(run_user_exists('Bob')), 1)
+        
     
 if __name__ == '__main__':
+    
     unittest.main()
         

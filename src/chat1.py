@@ -23,10 +23,10 @@ def rebuildTables():
     conn.commit()
     conn.close()
     
-def run_dataseed(database):
-    result = exec_get_all(f'SELECT COUNT(*) FROM %s', [database])
+# def run_dataseed(database):
+#     result = exec_get_all(f'SELECT COUNT(*) FROM %s', [database])
     
-    return result
+#     return result
 
 def run_single_chat(user):
     result = exec_get_all(f'SELECT body FROM chat_logs INNER JOIN user_info ON chat_logs.sender = user_info.id WHERE user_info."name" = %s' , (user,))
@@ -64,10 +64,25 @@ def run_user_exists(user):
     result = exec_get_all (f'SELECT name from user_info where user_info."name" = %s ' , (user,))
     
     return result
+
+
+def create_new_user(username, date_created):
+    result = exec_commit('INSERT INTO user_info(name, date_created) VALUES (%s , %s)', (username, date_created))
+    
+    return result
+
+def read_message(message_id):
+    result = exec_commit('UPDATE chat_logs SET message_read = TRUE WHERE id = %s', message_id)
+    
+    return result
+
+def create_message(sender, receiver, body, time_log):
+    result = exec_commit('INSERT INTO chat_logs (sender, receiver, body, time_log) VALUES (%s, %s, %s, %s', (sender, receiver, body, time_log))
+    
+    return result
     
 def main():
     
-
     exec_sql_file("chat.sql")
     
 if __name__ == "__main__":
