@@ -119,14 +119,18 @@ class TestChat(unittest.TestCase):
     def test_message_created(self):
         x = create_message(7, 6, 'Im doing work, Im baby-stepping', '1991-05-18') #Create message returns message id
         
-        self.assertEquals(len(x),1)
+        self.assertEqual(len(x),1)
         
         
-    # def test_change_username(self):
+    def test_change_username(self):
+        create_new_user('Bob', '1991-05-17')
         
-    #     x = change_username('Bob', 'BabySteps2Door', '1991-05-19')
+        change_username('Bob', 'BabySteps2Door', '1991-05-19')
+
+        self.assertEqual(len(run_user_exists('Bob')), 0) # Bob no longer exists
         
-    #     print(x)
+        self.assertEqual(len(run_user_exists('BabySteps2Door')), 1) # Replaced by the superior BabySteps2Door
+         
         
         
         
