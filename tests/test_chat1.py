@@ -122,11 +122,11 @@ class TestChat(unittest.TestCase):
         self.assertEquals(len(x),1)
         
         
-    def test_change_username(self):
+    # def test_change_username(self):
         
-        x = change_username('Bob', 'BabySteps2Door', '1991-05-19')
+    #     x = change_username('Bob', 'BabySteps2Door', '1991-05-19')
         
-        print(x)
+    #     print(x)
         
         
         

@@ -85,11 +85,11 @@ def get_message(id):
     
     return result
     
-def change_username(old_name, new_name, time):
-    exec_commit('UPDATE user_info SET name = %s, date_created = %s WHERE name = %s', (new_name, time, old_name))
-    result = exec_get_all('SELECT name, date_created FROM user_info WHERE user_info.name = %s', new_name)
+# def change_username(old_name, new_name, time):
+#     exec_commit('UPDATE user_info SET name = %s, date_created = %s WHERE name = %s', (new_name, time, old_name))
+#     result = exec_get_all('SELECT name, date_created FROM user_info WHERE user_info.name = %s', new_name)
     
-    return result
+#     return result
 
     
     
