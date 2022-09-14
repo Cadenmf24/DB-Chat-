@@ -16,6 +16,10 @@ CREATE TABLE chat_logs(
     body TEXT NOT NULL DEFAULT '', message_read BOOLEAN NOT NULL DEFAULT FALSE, message_id SERIAL NOT NULL
 );
 
+-- CREATE Table past_usernames(
+--     id SERIAL PRIMARY KEY, contact INTEGER NOT NULL, current_username TEXT UNIQUE NOT NULL , past_usernames
+-- );
+
 INSERT INTO user_info(name, date_created) VALUES
     ('Abbott', CURRENT_TIMESTAMP),
     ('Costello', CURRENT_TIMESTAMP),
@@ -36,6 +40,9 @@ INSERT INTO chat_logs(sender, receiver, time_log, body, message_read) VALUES
     (4,3,'1996-08-12', 'America or something', TRUE),
     (3,4,'1994-08-12', 'Canada or something', TRUE),
     (5,1, '2000-08-24', 'Guys dont worry im still here', TRUE);
+
+-- INSERT INTO past_usernames(contact, current_username, past_usernames) VALUES
+--     (1, 'Abbott', {'George', 'Charlie', 'Synthia'})
 
 
 

@@ -1,5 +1,7 @@
 from cgitb import reset
-from datetime import date
+import csv
+from datetime import date, datetime
+from sqlite3 import Timestamp
 from unittest import result
 from src.swen344_db_utils import exec_sql_file
 from src.swen344_db_utils import *
@@ -24,7 +26,7 @@ def rebuildTables():
     conn.close()
 
 def run_single_chat(user):
-    result = exec_get_all(f'SELECT body FROM chat_logs INNER JOIN user_info ON chat_logs.sender = user_info.id WHERE user_info."name" = %s' , (user,))
+    result = exec_get_all('SELECT body FROM chat_logs INNER JOIN user_info ON chat_logs.sender = user_info.id WHERE user_info.name = %s' , [user])
 
     return result
 
@@ -86,6 +88,26 @@ def change_username(old_name, new_name, time):
     # result = exec_get_all('SELECT name, date_created FROM user_info WHERE user_info.name = %s', )
     
     return result
+
+def read_csv(file):
+    with open(file, newline= '\n' ) as csvfile:
+        reader = csv.reader(csvfile)
+        for row in reader:
+            # print(row)
+            # print(', '.join(row))
+            # print(', '.join(row))
+            # print(row[0])
+            # print(row[0])
+            # print(', '.join(row[1:]))
+            
+            abbott_id = exec_get_all('Select contact FROM user_info WHERE name = \'Abbott\'')
+            costello_id = exec_get_all('Select contact FROM user_info WHERE name = \'Costello\'')
+            
+            if (row[0] == 'Abbott'):
+                exec_commit('INSERT INTO chat_logs (sender, receiver, body, time_log) VALUES (%s, %s, %s, %s)', [abbott_id[0], costello_id[0], ', '.join(row[1:]), datetime.now()])
+                
+            if (row[0] == 'Costello'):
+                exec_commit('INSERT INTO chat_logs (sender, receiver, body, time_log) VALUES (%s, %s, %s, %s)', [costello_id[0], abbott_id[0], ', '.join(row[1:]), datetime.now()])
 
     
     

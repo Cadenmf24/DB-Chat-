@@ -130,6 +130,14 @@ class TestChat(unittest.TestCase):
         self.assertEqual(len(run_user_exists('Bob')), 0) # Bob no longer exists
         
         self.assertEqual(len(run_user_exists('BabySteps2Door')), 1) # Replaced by the superior BabySteps2Door
+        
+    def test_csv_file(self):
+        
+        read_csv('whos_on_first.csv')
+        
+        print(exec_get_all('SELECT * FROM chat_logs'))
+        
+        
          
         
         
