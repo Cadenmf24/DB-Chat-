@@ -79,6 +79,7 @@ def create_message(sender, receiver, body, time_log, server_name = "General"):
     
     return result
 
+
 def get_message(id):
     result = exec_get_all('Select sender, receiver, body, message_read FROM chat_logs WHERE chat_logs.message_id = %s', (id))
     
@@ -91,7 +92,7 @@ def change_username(old_name, new_name, time):
     
     return result
 
-def read_server_messages(server):
+def read_server_messages(server): #gets all messages from the server
     result = exec_get_all('Select server_name, sender FROM chat_logs WHERE chat_logs.server_name = %s', [server])
     
     return result
@@ -123,6 +124,8 @@ def main():
     
     exec_sql_file("chat.sql")
     
+
+
 if __name__ == "__main__":
     main()
     

@@ -148,7 +148,6 @@ class TestChat(unittest.TestCase):
         
         
     def test_new_message_in_different_server(self):
-        print(create_message(1,2,"Hello", '1992-08-12', 'Social_Constructs'))
         
         self.assertEqual(len(read_server_messages('Social_Constructs')), 1)
         

@@ -49,15 +49,15 @@ INSERT INTO chat_logs(sender, receiver, time_log, body, message_read) VALUES
 
 -- To Do list
 
--- Each message is sent into a server specified by a parameter
+-- Each message is sent into a server specified by a parameter (Check)
 -- If they are banned in that server, state so somehow (error or something)
 -- Each ban log has a server, so certain people aren't banned completely
--- change id from numbers to discord like tags 
--- users can change their name but they can't change their id
--- each user has a date created and that date changes when a new name is chosen
+-- change id from numbers to discord like tags (Check)
+-- users can change their name but they can't change their id (Check)
+-- each user has a date created and that date changes when a new name is chosen (Check)
 -- possible old name list?, list
--- each chat has a date
--- chat_logs is one big table full of servers and shit
+-- each chat has a date (Check)
+-- chat_logs is one big table full of servers and shit (yes)
 -- inner join to see if someone is banned on the ban log
 
     
