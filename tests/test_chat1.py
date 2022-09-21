@@ -1,13 +1,11 @@
 from datetime import date
 from doctest import FAIL_FAST
 from pickle import FALSE, TRUE
-from socket import create_server
 import unittest
-from wsgiref.simple_server import make_server
 from src.chat import *
 from src.swen344_db_utils import *
 from src.chat1 import *
-from psycopg2.extensions import AsIs
+
 
 
 class TestChat(unittest.TestCase):
@@ -141,7 +139,6 @@ class TestChat(unittest.TestCase):
     #     # print(exec_get_all('SELECT * FROM chat_logs'))
         
     def test_new_server_message(self):
-        # print(get_server_messages('General'))
         
         self.assertEqual(len(read_server_messages('General')), 8) 
         self.assertEqual(len(read_server_messages('Gamer_mail')), 0 ) #Social Constructs do not exists
