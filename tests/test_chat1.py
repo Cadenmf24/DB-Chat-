@@ -1,10 +1,13 @@
 from datetime import date
 from doctest import FAIL_FAST
 from pickle import FALSE, TRUE
+from socket import create_server
 import unittest
+from wsgiref.simple_server import make_server
 from src.chat import *
 from src.swen344_db_utils import *
 from src.chat1 import *
+from psycopg2.extensions import AsIs
 
 
 class TestChat(unittest.TestCase):
@@ -112,18 +115,18 @@ class TestChat(unittest.TestCase):
     #More Tests kek
     
     def test_user_exists(self):
-        create_new_user('Bob', '1991-05-17')
+        create_new_user('Bob', '1991-05-17', '1865')
         
         self.assertEqual(len(run_user_exists('Bob')), 1)
         
     def test_message_created(self):
-        x = create_message(7, 6, 'Im doing work, Im baby-stepping', '1991-05-18') #Create message returns message id
+        x = create_message(7, 6, 'Im doing work, Im baby-stepping', '1991-05-18', 'General') #Create message returns message id
         
         self.assertEqual(len(x),1)
         
         
     def test_change_username(self):
-        create_new_user('Bob', '1991-05-17')
+        create_new_user('Bob', '1991-05-17', '1856')
         
         change_username('Bob', 'BabySteps2Door', '1991-05-19')
 
@@ -131,11 +134,23 @@ class TestChat(unittest.TestCase):
         
         self.assertEqual(len(run_user_exists('BabySteps2Door')), 1) # Replaced by the superior BabySteps2Door
         
-    def test_csv_file(self):
+    # def test_csv_file(self):
         
-        read_csv('whos_on_first.csv')
+    #     read_csv('whos_on_first.csv')
         
-        print(exec_get_all('SELECT * FROM chat_logs'))
+    #     # print(exec_get_all('SELECT * FROM chat_logs'))
+        
+    def test_new_server_message(self):
+        # print(get_server_messages('General'))
+        
+        self.assertEqual(len(read_server_messages('General')), 8) 
+        self.assertEqual(len(read_server_messages('Gamer_mail')), 0 ) #Social Constructs do not exists
+        
+        
+    def test_new_message_in_different_server(self):
+        print(create_message(1,2,"Hello", '1992-08-12', 'Social_Constructs'))
+        
+        self.assertEqual(len(read_server_messages('Social_Constructs')), 1)
         
         
          

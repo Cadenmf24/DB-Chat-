@@ -5,6 +5,8 @@ from sqlite3 import Timestamp
 from unittest import result
 from src.swen344_db_utils import exec_sql_file
 from src.swen344_db_utils import *
+from psycopg2.extensions import AsIs
+
 
 
 from src.swen344_db_utils import connect
@@ -61,8 +63,8 @@ def run_user_exists(user):
     
     return result
 
-def create_new_user(username, date_created):
-    result = exec_commit('INSERT INTO user_info(name, date_created) VALUES (%s , %s)', (username, date_created))
+def create_new_user(username, date_created, num_id):
+    result = exec_commit('INSERT INTO user_info(name, date_created, num_id) VALUES (%s , %s, %s)', (username, date_created, num_id))
     
     return result
 
@@ -71,9 +73,9 @@ def read_message(message_id):
     
     return result
 
-def create_message(sender, receiver, body, time_log):
-    exec_commit('INSERT INTO chat_logs (sender, receiver, body, time_log) VALUES (%s, %s, %s, %s)', (sender, receiver, body, time_log))
-    result = exec_get_all('SELECT message_id FROM chat_logs WHERE chat_logs.sender = %s AND chat_logs.receiver = %s AND chat_logs.body = %s AND chat_logs.time_log = %s', (sender,receiver,body,time_log))
+def create_message(sender, receiver, body, time_log, server_name = "General"):
+    exec_commit('INSERT INTO chat_logs (sender, receiver, body, time_log, server_name) VALUES (%s, %s, %s, %s, %s)', (sender, receiver, body, time_log, server_name))
+    result = exec_get_all('SELECT message_id FROM chat_logs WHERE chat_logs.sender = %s AND chat_logs.receiver = %s AND chat_logs.body = %s AND chat_logs.time_log = %s AND chat_logs.server_name = %s', (sender, receiver, body, time_log, server_name))
     
     return result
 
@@ -86,6 +88,11 @@ def change_username(old_name, new_name, time):
     exec_commit('UPDATE user_info SET name = %s, date_created = %s WHERE name = %s', [new_name, time, old_name])
     
     # result = exec_get_all('SELECT name, date_created FROM user_info WHERE user_info.name = %s', )
+    
+    return result
+
+def read_server_messages(server):
+    result = exec_get_all('Select server_name, sender FROM chat_logs WHERE chat_logs.server_name = %s', [server])
     
     return result
 
