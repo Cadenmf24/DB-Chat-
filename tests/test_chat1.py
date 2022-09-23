@@ -150,6 +150,10 @@ class TestChat(unittest.TestCase):
         self.assertEqual(len(read_server_messages('Social_Constructs')), 1)
         
         
+    def test_ban_logs(self):
+        print(get_server_banned_list('General'))
+        
+        
          
         
         

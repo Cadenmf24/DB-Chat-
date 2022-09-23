@@ -1,6 +1,7 @@
 from cgitb import reset
 import csv
 from datetime import date, datetime
+from http import server
 from sqlite3 import Timestamp
 from unittest import result
 from src.swen344_db_utils import exec_sql_file
@@ -55,6 +56,12 @@ def run_read_conversation(user):
 def run_banned_time(user, year):
     year = date(year,1,1)
     result = exec_get_all('SELECT user_id from ban_logs INNER JOIN user_info ON ban_logs.user_id = user_info.id WHERE user_info.name = %s AND ban_logs.ban_end > %s' , [user, year])
+    
+    return result
+
+def get_server_banned_list(server_name):
+    
+    result = exec_get_all('SELECT name, server_name from ban_logs INNER JOIN user_info ON ban_logs.user_id = user_info.id WHERE ban_logs.server_name = %s', [server_name])
     
     return result
 
