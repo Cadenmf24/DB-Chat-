@@ -3,6 +3,7 @@ import csv
 from datetime import date, datetime
 from http import server
 from sqlite3 import Timestamp
+from tkinter import INSERT
 from unittest import result
 from src.swen344_db_utils import exec_sql_file
 from src.swen344_db_utils import *
@@ -95,14 +96,25 @@ def get_message(id):
 def change_username(old_name, new_name, time):
     exec_commit('UPDATE user_info SET name = %s, date_created = %s WHERE name = %s', [new_name, time, old_name])
     
-    # result = exec_get_all('SELECT name, date_created FROM user_info WHERE user_info.name = %s', )
-    
-    return result
 
 def read_server_messages(server): #gets all messages from the server
     result = exec_get_all('Select server_name, sender FROM chat_logs WHERE chat_logs.server_name = %s', [server])
     
     return result
+
+def get_server_list():
+    result = exec_get_all('Select server_name FROM servers')
+    
+    return result
+
+def add_server(server_name):
+    exec_commit('INSERT INTO servers (server_name) VALUES (%s)', [server_name])
+    
+def get_server_message_count(server):
+    result = exec_get_one('Select COUNT(*) FROM chat_logs WHERE chat_logs.server_name = %s', [server])
+    
+    return result
+
 
 def read_csv(file):
     with open(file, newline= '\n' ) as csvfile:

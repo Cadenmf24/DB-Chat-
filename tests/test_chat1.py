@@ -154,6 +154,15 @@ class TestChat(unittest.TestCase):
         print(get_server_banned_list('General'))
         
         
+    def test_server_add(self):
+        add_server('Georges domain')
+        
+        self.assertEqual(len(get_server_list()), 2)
+    
+    def test_server_message_count(self):
+        print(get_server_message_count('General'))
+        self.assertEqual((get_server_message_count('General')[0]), 8)
+        
          
         
         

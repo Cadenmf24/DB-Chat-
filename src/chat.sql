@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS user_info;
 DROP TABLE IF EXISTS ban_logs;
 DROP TABLE IF EXISTS chat_logs;
+DROP TABLE IF EXISTS servers;
 
 
 CREATE TABLE user_info(
@@ -17,9 +18,9 @@ CREATE TABLE chat_logs(
     server_name TEXT NOT NULL DEFAULT 'General'
 );
 
--- CREATE Table past_usernames(
---     id SERIAL PRIMARY KEY, contact INTEGER NOT NULL, current_username TEXT UNIQUE NOT NULL , past_usernames
--- );
+CREATE TABLE servers(
+    id SERIAL PRIMARY KEY, server_name TEXT NOT NULL
+);
 
 INSERT INTO user_info(name, date_created, num_id) VALUES
     ('Abbott', CURRENT_TIMESTAMP, '0000'),
@@ -42,8 +43,9 @@ INSERT INTO chat_logs(sender, receiver, time_log, body, message_read) VALUES
     (3,4,'1994-08-12', 'Canada or something', TRUE),
     (5,1, '2000-08-24', 'Guys dont worry im still here', TRUE);
 
--- INSERT INTO past_usernames(contact, current_username, past_usernames) VALUES
---     (1, 'Abbott', {'George', 'Charlie', 'Synthia'})
+
+INSERT INTO servers(server_name) VALUES
+    ('General');
 
 
 
