@@ -37,11 +37,13 @@ INSERT INTO ban_logs(user_id, ban_start, ban_end) VALUES
 INSERT INTO chat_logs(sender, receiver, body, message_read) VALUES
     (1,2, 'Ayo', TRUE),
     (2,1, 'Dab me up', FALSE),
-    (3,4, 'Ao bro, dont do what your thinking of doing', FALSE),
-    (4,3, 'Yo buddy, that was a huge mistake man', TRUE),
     (4,3, 'America or something', TRUE),
     (3,4,'Canada or something', TRUE),
     (5,1, 'Guys dont worry im still here', TRUE);
+
+INSERT INTO chat_logs(sender, receiver, body, message_read, time_log) VALUES
+    (3,4, 'Ao bro, dont do what your thinking of doing', FALSE, '1995-07-07'),
+    (4,3, 'Yo buddy, that was a huge mistake man', TRUE, '1995-08-08');
 
 
 INSERT INTO servers(server_name) VALUES

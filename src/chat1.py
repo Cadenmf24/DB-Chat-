@@ -2,7 +2,10 @@ from cgitb import reset
 import csv
 from dataclasses import dataclass
 from datetime import date, datetime
+from email import message
+from hashlib import new
 from http import server
+from re import X
 from sqlite3 import Timestamp
 from tkinter import INSERT
 from unittest import result
@@ -122,9 +125,51 @@ def get_name_id(name):
     
     return result
 
-def word_cound(word):
+def word_count(word):  
     
-    result = exec_get_all('SELECT * FROM chat_logs WHERE to_tsvector(body) @@ to_tsquery(%s)', [word])
+    
+    if len(word.split(' ')) >= 2:
+        
+        x = 1
+        
+        word_list = word.split(' ')
+        
+        new_word = ' '
+        
+        new_word = word_list[0]
+        while x < len(word.split(' ')):
+            if x == len(word.split(' ')):
+                break
+            else:
+                new_word += ' & ' + word_list[x]
+                x += 1
+                
+            
+            
+        result = exec_get_all('SELECT * FROM chat_logs WHERE to_tsvector(body) @@ to_tsquery(%s)', [new_word])
+    
+        messages = exec_get_all('SELECT body FROM chat_logs WHERE to_tsvector(body) @@ to_tsquery(%s)', [new_word])
+    
+    else:
+        
+        result = exec_get_all('SELECT * FROM chat_logs WHERE to_tsvector(body) @@ to_tsquery(%s)', [word])
+    
+        messages = exec_get_all('SELECT body FROM chat_logs WHERE to_tsvector(body) @@ to_tsquery(%s)', [word])
+    
+    
+    return result, messages
+
+def get_active_members(server_name, date):
+    
+    day = date.split('-')
+    
+    new_month = int(day[1]) + 1
+    
+    emonth = date(int(day[0]), new_month, int(day[2]))
+    
+    smonth = date(int(day[0]), int(day[1]), int(day[2]))
+    
+    result = exec_get_all('SELECT sender FROM servers INNER JOIN chat_logs ON chat_logs.server_name = %s WHERE chat_logs.time_log >= %s AND chat_logs.time_log =< %s', [server_name, smonth, emonth])
     
     return result
     

@@ -175,7 +175,26 @@ class TestChat(unittest.TestCase):
         create_message(Paul, John, 'Please reply', server_name='Comedy' )
         create_message(John, Paul, 'I replied already!', server_name='Comedy')  
         
-        print(word_cound('reply'))      
+        """Full Text Search Query"""
+        print('\n', word_count('reply')[0])
+        print('\n', word_count('reply')[1])   
+        print('\n', word_count('reply please')[1])  
+       
+        
+        
+        """Activity Summary"""
+        create_message(George, Cherry, 'Can you believe we are only used for a test?', server_name = 'Arrakis' )
+        create_message(Cherry, Cherry, 'Nope, I seriously cannot!', server_name = 'Arrakis')  
+        create_message(Cherry, John, 'We arent real man!', server_name = 'Arrakis')
+        
+        create_message(George, Cherry, 'Oh, wow. We seriously arent real', server_name = 'Comedy' )
+        create_message(Cherry, Cherry, 'Dude, I cant feel my hands!', server_name = 'Comedy')  
+        create_message(Cherry, John, 'We are in a simulation!', server_name = 'Comedy')
+        create_message(Paul, John, 'Brb gonna get banned', '1990-9-27', 'Arrakis')
+        
+        print(get_active_members('Arrakis', '2022-09-27'))
+        
+        
          
         
         
