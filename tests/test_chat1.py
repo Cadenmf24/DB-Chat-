@@ -117,12 +117,6 @@ class TestChat(unittest.TestCase):
         
         self.assertEqual(len(run_user_exists('Bob')), 1)
         
-    def test_message_created(self):
-        x = create_message(7, 6, 'Im doing work, Im baby-stepping', '1991-05-18', 'General') #Create message returns message id
-        
-        self.assertEqual(len(x),1)
-        
-        
     def test_change_username(self):
         create_new_user('Bob', '1991-05-17', '1856')
         
@@ -140,7 +134,7 @@ class TestChat(unittest.TestCase):
         
     def test_new_server_message(self):
         
-        self.assertEqual(len(read_server_messages('General')), 8) 
+        self.assertEqual(len(read_server_messages('General')), 7) 
         self.assertEqual(len(read_server_messages('Gamer_mail')), 0 ) #Social Constructs do not exists
         
         
@@ -151,7 +145,7 @@ class TestChat(unittest.TestCase):
         
     
     def test_server_message_count(self):
-        self.assertEqual((get_server_message_count('General')[0]), 8)
+        self.assertEqual((get_server_message_count('General')[0]), 7)
         
         
     def test_final_test1(self):
@@ -173,6 +167,7 @@ class TestChat(unittest.TestCase):
         Cherry = get_name_id('Cherry')[0]
         
         create_message(Paul, John, 'Please reply', server_name='Comedy' )
+        
         create_message(John, Paul, 'I replied already!', server_name='Comedy')  
         
         """Full Text Search Query"""
@@ -181,18 +176,32 @@ class TestChat(unittest.TestCase):
         print('\n', word_count('reply please')[1])  
        
         
-        
         """Activity Summary"""
         create_message(George, Cherry, 'Can you believe we are only used for a test?', server_name = 'Arrakis' )
         create_message(Cherry, Cherry, 'Nope, I seriously cannot!', server_name = 'Arrakis')  
         create_message(Cherry, John, 'We arent real man!', server_name = 'Arrakis')
+        create_message(Paul, John, 'gonna get banned', server_name = 'Arrakis')
         
         create_message(George, Cherry, 'Oh, wow. We seriously arent real', server_name = 'Comedy' )
         create_message(Cherry, Cherry, 'Dude, I cant feel my hands!', server_name = 'Comedy')  
         create_message(Cherry, John, 'We are in a simulation!', server_name = 'Comedy')
-        create_message(Paul, John, 'Brb gonna get banned', '1990-9-27', 'Arrakis')
+        create_message(Paul, John, 'Brb gonna get banned', '1990-9-27', 'Comedy')
         
-        print(get_active_members('Arrakis', '2022-09-27'))
+        # print(get_active_members('Arrakis', '2022-09-27'))
+        print(get_active_members('Comedy', '2022-09-27'))
+        
+        
+        """Ban Summary"""
+        add_ban(Paul, '2022-09-1', '2023-09-1', 'Arrakis')
+        print(read_server_messages('Arrakis'))
+        
+        
+        '''Beautify'''
+        beautify('Comedy')
+        beautify('Arrakis')
+        
+        
+        
         
         
          

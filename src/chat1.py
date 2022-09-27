@@ -3,9 +3,11 @@ import csv
 from dataclasses import dataclass
 from datetime import date, datetime
 from email import message
+from enum import unique
 from hashlib import new
 from http import server
 from re import X
+import re
 from sqlite3 import Timestamp
 from tkinter import INSERT
 from unittest import result
@@ -64,6 +66,10 @@ def run_banned_time(user, year):
     
     return result
 
+def add_ban(user, ban_start, ban_end, server):
+    
+    exec_commit('INSERT INTO ban_logs (user_id, ban_start, ban_end, server_name) VALUES (%s, %s, %s, %s)', [user, ban_start, ban_end, server])
+
 def get_server_banned_list(server_name):
     
     result = exec_get_all('SELECT name, server_name from ban_logs INNER JOIN user_info ON ban_logs.user_id = user_info.id WHERE ban_logs.server_name = %s', [server_name])
@@ -86,6 +92,7 @@ def read_message(message_id):
     return result
 
 def create_message(sender, receiver, body, time_log = datetime.today(), server_name = "General"):
+    
     exec_commit('INSERT INTO chat_logs (sender, receiver, body, time_log, server_name) VALUES (%s, %s, %s, %s, %s)', (sender, receiver, body, time_log, server_name))
     result = exec_get_all('SELECT message_id FROM chat_logs WHERE chat_logs.sender = %s AND chat_logs.receiver = %s AND chat_logs.body = %s AND chat_logs.time_log = %s AND chat_logs.server_name = %s', (sender, receiver, body, time_log, server_name))
     
@@ -159,25 +166,28 @@ def word_count(word):
     
     return result, messages
 
-def get_active_members(server_name, date):
+def get_active_members(server_name, start_date):
     
-    day = date.split('-')
+    day = start_date.split('-')
     
     new_month = int(day[1]) + 1
     
     emonth = date(int(day[0]), new_month, int(day[2]))
     
-    smonth = date(int(day[0]), int(day[1]), int(day[2]))
+    result = exec_get_one('Select count(*) FROM chat_logs WHERE chat_logs.server_name = %s AND chat_logs.time_log >= %s AND chat_logs.time_log <= %s', [server_name, start_date, emonth])
     
-    result = exec_get_all('SELECT sender FROM servers INNER JOIN chat_logs ON chat_logs.server_name = %s WHERE chat_logs.time_log >= %s AND chat_logs.time_log =< %s', [server_name, smonth, emonth])
+    unique_users = exec_get_one('Select count(DISTINCT sender) FROM chat_logs WHERE chat_logs.server_name = %s AND chat_logs.time_log >= %s AND chat_logs.time_log <= %s', [server_name, start_date, emonth])
     
-    return result
+    
+    
+    return (int(result[0])/int(unique_users[0])), unique_users[0]
     
 
 def beautify(server_name):
+    x = get_active_members(server_name, '2022-09-27')
     
-    result = exec_get_all('Select name, ')
-
+    print(' \n Community: ' + server_name + ', average numbers of messages: ' + str(x[0]) +  ', Active Users: ' + str(x[1]))
+    
 
 def read_csv(file):
     with open(file, newline= '\n' ) as csvfile:
