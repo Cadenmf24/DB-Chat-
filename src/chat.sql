@@ -13,7 +13,7 @@ CREATE TABLE ban_logs(
 );
 
 CREATE TABLE chat_logs(
-    id SERIAL PRIMARY KEY, sender INTEGER NOT NULL DEFAULT 0, receiver INTEGER NOT NULL DEFAULT 0, time_log DATE NOT NULL, 
+    id SERIAL PRIMARY KEY, sender INTEGER NOT NULL DEFAULT 0, receiver INTEGER NOT NULL DEFAULT 0, time_log DATE NOT NULL DEFAULT CURRENT_TIMESTAMP, 
     body TEXT NOT NULL DEFAULT '', message_read BOOLEAN NOT NULL DEFAULT FALSE, message_id SERIAL NOT NULL, 
     server_name TEXT NOT NULL DEFAULT 'General'
 );
@@ -34,14 +34,14 @@ INSERT INTO ban_logs(user_id, ban_start, ban_end) VALUES
     (4, '1995-01-01', '2060-01-01'),
     (5, '1990-01-01', '2000-01-01');
 
-INSERT INTO chat_logs(sender, receiver, time_log, body, message_read) VALUES
-    (1,2,'1922-01-01', 'Ayo', TRUE),
-    (2,1,'1922-01-12', 'Dab me up', FALSE),
-    (3,4,'1995-08-12', 'Ao bro, dont do what your thinking of doing', FALSE),
-    (4,3,'1995-08-12', 'Yo buddy, that was a huge mistake man', TRUE),
-    (4,3,'1996-08-12', 'America or something', TRUE),
-    (3,4,'1994-08-12', 'Canada or something', TRUE),
-    (5,1, '2000-08-24', 'Guys dont worry im still here', TRUE);
+INSERT INTO chat_logs(sender, receiver, body, message_read) VALUES
+    (1,2, 'Ayo', TRUE),
+    (2,1, 'Dab me up', FALSE),
+    (3,4, 'Ao bro, dont do what your thinking of doing', FALSE),
+    (4,3, 'Yo buddy, that was a huge mistake man', TRUE),
+    (4,3, 'America or something', TRUE),
+    (3,4,'Canada or something', TRUE),
+    (5,1, 'Guys dont worry im still here', TRUE);
 
 
 INSERT INTO servers(server_name) VALUES

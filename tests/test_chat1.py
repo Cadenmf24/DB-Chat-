@@ -149,20 +149,33 @@ class TestChat(unittest.TestCase):
         create_message(1, 2, 'Chicken Nuggets', '1991-05-18', 'Social_Constructs')
         self.assertEqual(len(read_server_messages('Social_Constructs')), 1)
         
-        
-    def test_ban_logs(self):
-        print(get_server_banned_list('General'))
-        
-        
-    def test_server_add(self):
-        add_server('Georges domain')
-        
-        self.assertEqual(len(get_server_list()), 2)
     
     def test_server_message_count(self):
-        print(get_server_message_count('General'))
         self.assertEqual((get_server_message_count('General')[0]), 8)
         
+        
+    def test_final_test1(self):
+        
+        '''Creating Names'''
+        create_new_user('Paul', '2022-09-27', 1234)
+        create_new_user('John', '2022-09-27', 5679)
+        create_new_user('George', '2022-09-27', 5555)
+        create_new_user('Cherry', '2022-09-27', 9999)
+        
+        '''Creating Server'''
+        add_server('Arrakis')
+        add_server('Comedy')
+        
+        '''Creating Messages'''
+        Paul = get_name_id('Paul')[0]
+        John = get_name_id('John')[0]
+        George = get_name_id('George')[0]
+        Cherry = get_name_id('Cherry')[0]
+        
+        create_message(Paul, John, 'Please reply', server_name='Comedy' )
+        create_message(John, Paul, 'I replied already!', server_name='Comedy')  
+        
+        print(word_cound('reply'))      
          
         
         

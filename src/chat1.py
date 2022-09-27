@@ -1,5 +1,6 @@
 from cgitb import reset
 import csv
+from dataclasses import dataclass
 from datetime import date, datetime
 from http import server
 from sqlite3 import Timestamp
@@ -81,7 +82,7 @@ def read_message(message_id):
     
     return result
 
-def create_message(sender, receiver, body, time_log, server_name = "General"):
+def create_message(sender, receiver, body, time_log = datetime.today(), server_name = "General"):
     exec_commit('INSERT INTO chat_logs (sender, receiver, body, time_log, server_name) VALUES (%s, %s, %s, %s, %s)', (sender, receiver, body, time_log, server_name))
     result = exec_get_all('SELECT message_id FROM chat_logs WHERE chat_logs.sender = %s AND chat_logs.receiver = %s AND chat_logs.body = %s AND chat_logs.time_log = %s AND chat_logs.server_name = %s', (sender, receiver, body, time_log, server_name))
     
@@ -110,10 +111,27 @@ def get_server_list():
 def add_server(server_name):
     exec_commit('INSERT INTO servers (server_name) VALUES (%s)', [server_name])
     
+    
 def get_server_message_count(server):
     result = exec_get_one('Select COUNT(*) FROM chat_logs WHERE chat_logs.server_name = %s', [server])
     
     return result
+
+def get_name_id(name):
+    result = exec_get_one('SELECT id FROM user_info WHERE user_info.name = %s', [name])
+    
+    return result
+
+def word_cound(word):
+    
+    result = exec_get_all('SELECT * FROM chat_logs WHERE to_tsvector(body) @@ to_tsquery(%s)', [word])
+    
+    return result
+    
+
+def beautify(server_name):
+    
+    result = exec_get_all('Select name, ')
 
 
 def read_csv(file):
